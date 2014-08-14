@@ -39,10 +39,11 @@ module.exports.add-account = (opts) !->
     if opts.password?
         cfg.account[opts.username].password = opts.password
 
-    if not cfg.config?
-        cfg.config = {}
-
-    cfg.config.default_account = opts.username
+    if opts.default
+        if not cfg.config?
+            cfg.config = {}
+        winston.info "set default account to #{opts.username}"
+        cfg.config.default_account = opts.username
 
     opts.cfg = cfg
 
