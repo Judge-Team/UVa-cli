@@ -24,7 +24,7 @@ set-opts-default = (opts) ->
     opts
 
 module.exports.add-account = (opts) !->
-    winston.info "add-account, username = #{opts.username}, password = #{opts.password}, default = #{opts.default}"
+    winston.info "add-account: username = #{opts.username}, password = #{opts.password}, default = #{opts.default}"
 
     opts = set-opts-default opts
 
