@@ -1,6 +1,6 @@
-require!<[winston ./config ./utils]>
+require!<[winston ./config ./logger]>
 
-utils.initWinston!
+logger.initWinston!
 
 prog = require \commander
     .description 'Set UVa username and password'
@@ -12,7 +12,7 @@ prog.usage '[options] <user> [password]'
 
 prog.parse process.argv
 
-utils.verboseWinston prog.verbose
+logger.verboseWinston prog.verbose
 
 if prog.args.length != 1 and prog.args.length != 2
     winston.error prog._usage

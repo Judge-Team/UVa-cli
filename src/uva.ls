@@ -1,6 +1,6 @@
-require!<[pkginfo winston ./utils]>
+require!<[pkginfo winston ./logger]>
 
-utils.initWinston!
+logger.initWinston!
 
 pkginfo module, \version
 
@@ -20,4 +20,4 @@ prog.command 'submit'
 
 prog.parse process.argv
 
-utils.verboseWinston prog.verbose
+logger.verboseWinston prog.verbose
