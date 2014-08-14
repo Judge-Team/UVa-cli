@@ -34,7 +34,9 @@ dependencies:
     winston: \~0.7.3
 
 devDependencies:
+    chai: \~1.9.1
     LiveScript: \~1.2.0
+    mocha: \~1.21.4
 
 scripts:
     prepublish: 'node_modules/.bin/lsc -c .'
