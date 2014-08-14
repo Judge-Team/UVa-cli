@@ -15,6 +15,7 @@ prog.parse process.argv
 logger.verboseWinston prog.verbose
 
 if prog.args.length != 1 and prog.args.length != 2
+    # FIXME: Show help message
     winston.error prog._usage
     return
 
