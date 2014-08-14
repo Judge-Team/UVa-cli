@@ -20,7 +20,7 @@ save = (opts) !->
 
 set-opts-default = (opts) ->
     if not opts.cfg_path?
-        opts <<< cfg_path: DEFAULT_CONFIG_PATH
+        opts.cfg_path = DEFAULT_CONFIG_PATH
     opts
 
 module.exports.add-account = (opts) !->
