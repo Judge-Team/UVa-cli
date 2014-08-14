@@ -33,7 +33,8 @@ module.exports.add-account = (opts) !->
     if not cfg.account?
         cfg.account = {}
 
-    cfg.account[opts.username] = {}
+    if not cfg.account[opts.username]?
+        cfg.account[opts.username] = {}
 
     if opts.password?
         cfg.account[opts.username].password = opts.password
