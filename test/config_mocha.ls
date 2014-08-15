@@ -18,7 +18,7 @@ describe 'add-account', (,) !->
         username = \this-is-username
 
         app.config.add-account username, do
-            cfg_path: cfg-path
+            _cfg-path: cfg-path
 
         cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
 
@@ -42,7 +42,7 @@ describe 'add-account', (,) !->
 
         app.config.add-account username, do
             password: password
-            cfg_path: cfg-path
+            _cfg-path: cfg-path
 
         cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
 
@@ -70,7 +70,7 @@ describe 'add-account', (,) !->
         password = \this-is-original-password
 
         app.config.add-account username, do
-            cfg_path: cfg-path
+            _cfg-path: cfg-path
 
         cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
 
@@ -99,7 +99,7 @@ describe 'add-account', (,) !->
 
         app.config.add-account username, do
             password: password
-            cfg_path: cfg-path
+            _cfg-path: cfg-path
 
         cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
 
