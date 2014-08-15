@@ -40,6 +40,7 @@ devDependencies:
 
 scripts:
     prepublish: 'node_modules/.bin/lsc -c .'
+    test: 'node_modules/.bin/mocha'
 
 engines:
     node: \~0.10.30
