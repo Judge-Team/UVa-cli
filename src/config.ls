@@ -42,3 +42,15 @@ module.exports.set-account = (username, opts) !->
         cfg.account.password = opts.password
 
     save cfg, opts
+
+module.exports.get-account = (opts) ->
+    winston.info "get-account"
+
+    opts = set-opts-default opts
+
+    cfg = load opts
+
+    if cfg.account?
+        return cfg.account
+
+    {}

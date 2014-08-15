@@ -112,3 +112,22 @@ describe 'config', (,) !->
 
             cb!
             done!
+
+    describe 'get-account', (,) !->
+
+        it 'get account, config absence', (done) !->
+            (err, dir, cb) <-! tmp.dir do
+                unsafeCleanup: true
+
+            if err
+                throw err
+
+            cfg-path = path.join dir, \get-account.yaml
+
+            account = app.config.get-account do
+                _cfg-path: cfg-path
+
+            expect account .to.deep.equal {}
+
+            cb!
+            done!
