@@ -3,110 +3,112 @@ expect = require \chai .expect
 
 app = require \..
 
-describe 'set-account', (,) !->
+describe 'config', (,) !->
     before !->
         app.logger.initWinston!
 
-    it 'set account, no password, config absence', (done) !->
-        (err, dir, cb) <-! tmp.dir do
-            unsafeCleanup: true
+    describe 'set-account', (,) !->
 
-        if err
-            throw err
+        it 'set account, no password, config absence', (done) !->
+            (err, dir, cb) <-! tmp.dir do
+                unsafeCleanup: true
 
-        cfg-path = path.join dir, \set-account-no-password-config-absense.yaml
-        username = \this-is-username
+            if err
+                throw err
 
-        app.config.set-account username, do
-            _cfg-path: cfg-path
+            cfg-path = path.join dir, \set-account-no-password-config-absense.yaml
+            username = \this-is-username
 
-        cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
+            app.config.set-account username, do
+                _cfg-path: cfg-path
 
-        expect cfg .to.deep.equal do
-            account:
-                username: username
+            cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
 
-        cb!
-        done!
+            expect cfg .to.deep.equal do
+                account:
+                    username: username
 
-    it 'set account, with password, config absence', (done) !->
-        (err, dir, cb) <-! tmp.dir do
-            unsafeCleanup: true
+            cb!
+            done!
 
-        if err
-            throw err
+        it 'set account, with password, config absence', (done) !->
+            (err, dir, cb) <-! tmp.dir do
+                unsafeCleanup: true
 
-        cfg-path = path.join dir, \set-account-with-password-config-absense.yaml
-        username = \this-is-username
-        password = \this-is-password
+            if err
+                throw err
 
-        app.config.set-account username, do
-            password: password
-            _cfg-path: cfg-path
+            cfg-path = path.join dir, \set-account-with-password-config-absense.yaml
+            username = \this-is-username
+            password = \this-is-password
 
-        cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
-
-        expect cfg .to.deep.equal do
-            account:
-                username: username
+            app.config.set-account username, do
                 password: password
+                _cfg-path: cfg-path
 
-        cb!
-        done!
+            cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
 
-    it 'set account, no password, config present', (done) !->
-        (err, dir, cb) <-! tmp.dir do
-            unsafeCleanup: true
+            expect cfg .to.deep.equal do
+                account:
+                    username: username
+                    password: password
 
-        if err
-            throw err
+            cb!
+            done!
 
-        original-cfg-path = path.join __dirname, \data \set-account-config.yaml
-        cfg-path = path.join dir, \update-exist-account.yaml
+        it 'set account, no password, config present', (done) !->
+            (err, dir, cb) <-! tmp.dir do
+                unsafeCleanup: true
 
-        fs-extra.copySync original-cfg-path, cfg-path
+            if err
+                throw err
 
-        username = \this-is-another-username
-        password = \this-is-original-password
+            original-cfg-path = path.join __dirname, \data \set-account-config.yaml
+            cfg-path = path.join dir, \update-exist-account.yaml
 
-        app.config.set-account username, do
-            _cfg-path: cfg-path
+            fs-extra.copySync original-cfg-path, cfg-path
 
-        cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
+            username = \this-is-another-username
+            password = \this-is-original-password
 
-        expect cfg .to.deep.equal do
-            account:
-                username: username
+            app.config.set-account username, do
+                _cfg-path: cfg-path
+
+            cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
+
+            expect cfg .to.deep.equal do
+                account:
+                    username: username
+                    password: password
+
+            cb!
+            done!
+
+        it 'set account, with password, config present', (done) !->
+            (err, dir, cb) <-! tmp.dir do
+                unsafeCleanup: true
+
+            if err
+                throw err
+
+            original-cfg-path = path.join __dirname, \data \set-account-config.yaml
+            cfg-path = path.join dir, \update-exist-account.yaml
+
+            fs-extra.copySync original-cfg-path, cfg-path
+
+            username = \this-is-another-username
+            password = \this-is-another-password
+
+            app.config.set-account username, do
                 password: password
+                _cfg-path: cfg-path
 
-        cb!
-        done!
+            cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
 
-    it 'set account, with password, config present', (done) !->
-        (err, dir, cb) <-! tmp.dir do
-            unsafeCleanup: true
+            expect cfg .to.deep.equal do
+                account:
+                    username: username
+                    password: password
 
-        if err
-            throw err
-
-        original-cfg-path = path.join __dirname, \data \set-account-config.yaml
-        cfg-path = path.join dir, \update-exist-account.yaml
-
-        fs-extra.copySync original-cfg-path, cfg-path
-
-        username = \this-is-another-username
-        password = \this-is-another-password
-
-        app.config.set-account username, do
-            password: password
-            _cfg-path: cfg-path
-
-        cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
-
-        expect cfg .to.deep.equal do
-            account:
-                username: username
-                password: password
-
-        cb!
-        done!
+            cb!
+            done!
