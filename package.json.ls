@@ -39,7 +39,7 @@ devDependencies:
     mocha: \~1.21.4
 
 scripts:
-    prepublish: 'node_modules/.bin/lsc -c .'
+    prepublish: 'node_modules/.bin/lsc -c *.ls src'
     test: 'node_modules/.bin/mocha'
 
 engines:
