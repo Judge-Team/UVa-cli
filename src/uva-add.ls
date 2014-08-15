@@ -18,5 +18,5 @@ if prog.args.length != 1 and prog.args.length != 2
     winston.error prog._usage
     return
 
-config.add-account prog.args.0, do
+config.set-account prog.args.0, do
     password: prog.args.1

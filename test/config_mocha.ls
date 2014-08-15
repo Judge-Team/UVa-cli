@@ -3,21 +3,21 @@ expect = require \chai .expect
 
 app = require \..
 
-describe 'add-account', (,) !->
+describe 'set-account', (,) !->
     before !->
         app.logger.initWinston!
 
-    it 'add new account, no password, config absence', (done) !->
+    it 'set account, no password, config absence', (done) !->
         (err, dir, cb) <-! tmp.dir do
             unsafeCleanup: true
 
         if err
             throw err
 
-        cfg-path = path.join dir, \add-new-account-no-password-config-absense.yaml
+        cfg-path = path.join dir, \set-account-no-password-config-absense.yaml
         username = \this-is-username
 
-        app.config.add-account username, do
+        app.config.set-account username, do
             _cfg-path: cfg-path
 
         cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
@@ -29,18 +29,18 @@ describe 'add-account', (,) !->
         cb!
         done!
 
-    it 'add new account, with password, config absence', (done) !->
+    it 'set account, with password, config absence', (done) !->
         (err, dir, cb) <-! tmp.dir do
             unsafeCleanup: true
 
         if err
             throw err
 
-        cfg-path = path.join dir, \add-new-account-with-password-config-absense.yaml
+        cfg-path = path.join dir, \set-account-with-password-config-absense.yaml
         username = \this-is-username
         password = \this-is-password
 
-        app.config.add-account username, do
+        app.config.set-account username, do
             password: password
             _cfg-path: cfg-path
 
@@ -54,14 +54,14 @@ describe 'add-account', (,) !->
         cb!
         done!
 
-    it 'update exist account, no password, config present', (done) !->
+    it 'set account, no password, config present', (done) !->
         (err, dir, cb) <-! tmp.dir do
             unsafeCleanup: true
 
         if err
             throw err
 
-        original-cfg-path = path.join __dirname, \data \add-account-config.yaml
+        original-cfg-path = path.join __dirname, \data \set-account-config.yaml
         cfg-path = path.join dir, \update-exist-account.yaml
 
         fs-extra.copySync original-cfg-path, cfg-path
@@ -69,7 +69,7 @@ describe 'add-account', (,) !->
         username = \this-is-another-username
         password = \this-is-original-password
 
-        app.config.add-account username, do
+        app.config.set-account username, do
             _cfg-path: cfg-path
 
         cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
@@ -82,14 +82,14 @@ describe 'add-account', (,) !->
         cb!
         done!
 
-    it 'update exist account, with password, config present', (done) !->
+    it 'set account, with password, config present', (done) !->
         (err, dir, cb) <-! tmp.dir do
             unsafeCleanup: true
 
         if err
             throw err
 
-        original-cfg-path = path.join __dirname, \data \add-account-config.yaml
+        original-cfg-path = path.join __dirname, \data \set-account-config.yaml
         cfg-path = path.join dir, \update-exist-account.yaml
 
         fs-extra.copySync original-cfg-path, cfg-path
@@ -97,7 +97,7 @@ describe 'add-account', (,) !->
         username = \this-is-another-username
         password = \this-is-another-password
 
-        app.config.add-account username, do
+        app.config.set-account username, do
             password: password
             _cfg-path: cfg-path
 

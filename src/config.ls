@@ -23,8 +23,8 @@ set-opts-default = (opts) ->
         opts._cfg-path = DEFAULT_CONFIG_PATH
     opts
 
-module.exports.add-account = (username, opts) !->
-    winston.info "add-account: username = #{username}"
+module.exports.set-account = (username, opts) !->
+    winston.info "set-account: username = #{username}"
 
     opts = set-opts-default opts
 
