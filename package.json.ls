@@ -31,10 +31,12 @@ dependencies:
     mkdirp: \~0.5.0
     'js-yaml': \~3.1.0
     pkginfo: \~0.3.0
+    tmp: \~0.0.24
     winston: \~0.7.3
 
 devDependencies:
     chai: \~1.9.1
+    'fs-extra': \~0.11.0
     growl: \~1.8.1
     LiveScript: \~1.2.0
     mocha: \~1.21.4
