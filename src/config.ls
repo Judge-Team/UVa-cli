@@ -4,19 +4,19 @@ const DEFAULT_CONFIG_PATH = path.join process.env.HOME, \.config, \uva-cli, \con
 
 load = (opts) ->
     try
-        cfg = jsYaml.safeLoad fs.readFileSync opts.cfg_path, \utf8
+        cfg = js-yaml.safeLoad fs.readFileSync opts.cfg_path, \utf8
     catch e
         winston.info 'load config at %s, %s' opts.cfg_path, e.toString!
 
     if not cfg?
-        # jsYaml.safeLoad might return undefined when document is empty.
+        # js-yaml.safeLoad might return undefined when document is empty.
         cfg = {}
 
     cfg
 
 save = (cfg, opts) !->
     mkdirp.sync path.dirname opts.cfg_path
-    fs.writeFileSync opts.cfg_path, jsYaml.safeDump cfg
+    fs.writeFileSync opts.cfg_path, js-yaml.safeDump cfg
 
 set-opts-default = (opts) ->
     if not opts.cfg_path?
