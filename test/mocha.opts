@@ -1,1 +1,3 @@
---reporter spec --compilers ls:LiveScript
+--compilers ls:LiveScript
+--growl
+--reporter spec

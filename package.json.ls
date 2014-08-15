@@ -35,6 +35,7 @@ dependencies:
 
 devDependencies:
     chai: \~1.9.1
+    growl: \~1.8.1
     LiveScript: \~1.2.0
     mocha: \~1.21.4
 
