@@ -19,6 +19,9 @@ save = (cfg, opts) !->
     fs.writeFileSync opts._cfg-path, js-yaml.safeDump cfg
 
 set-opts-default = (opts) ->
+    if not opts?
+        opts = {}
+
     if not opts._cfg-path?
         opts._cfg-path = DEFAULT_CONFIG_PATH
     opts
