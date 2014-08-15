@@ -14,17 +14,17 @@ load = (opts) ->
 
     cfg
 
-save = (opts) !->
+save = (cfg, opts) !->
     mkdirp.sync path.dirname opts.cfg_path
-    fs.writeFileSync opts.cfg_path, jsYaml.safeDump opts.cfg
+    fs.writeFileSync opts.cfg_path, jsYaml.safeDump cfg
 
 set-opts-default = (opts) ->
     if not opts.cfg_path?
         opts.cfg_path = DEFAULT_CONFIG_PATH
     opts
 
-module.exports.add-account = (opts) !->
-    winston.info "add-account: username = #{opts.username}, password = #{opts.password}, default = #{opts.default}"
+module.exports.add-account = (username, opts) !->
+    winston.info "add-account: username = #{username}"
 
     opts = set-opts-default opts
 
@@ -33,18 +33,9 @@ module.exports.add-account = (opts) !->
     if not cfg.account?
         cfg.account = {}
 
-    if not cfg.account[opts.username]?
-        cfg.account[opts.username] = {}
-
+    cfg.account.username = username
+    # FIXME: ecrypt password here
     if opts.password?
-        cfg.account[opts.username].password = opts.password
+        cfg.account.password = opts.password
 
-    if opts.default
-        if not cfg.config?
-            cfg.config = {}
-        winston.info "set default account to #{opts.username}"
-        cfg.config.default_account = opts.username
-
-    opts.cfg = cfg
-
-    save opts
+    save cfg, opts
