@@ -22,7 +22,7 @@ bin:
     *   uva: \./bin/uva
         'uva-add': \./bin/uva-add
 
-reporsitory:
+repository:
     *   type: \git
         url: \https://github.com/Judge-Team/UVa-cli
 
