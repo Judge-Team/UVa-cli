@@ -6,5 +6,8 @@
 
 This project is a CLI for [UVa Online Judge](http://uva.onlinejudge.org/).
 
+# Thanks
+*   [uHunt API](http://uhunt.felix-halim.net/api)
+
 # License
 This program is licensed under [MIT license](http://opensource.org/licenses/MIT)
