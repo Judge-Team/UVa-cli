@@ -1,4 +1,4 @@
-require!<[fibers http winston]>
+require!<[http winston]>
 
 set-opts-default = (opts) ->
     if not opts?
