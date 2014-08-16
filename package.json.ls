@@ -28,6 +28,7 @@ repository:
 
 dependencies:
     commander: \~2.3.0
+    fibers: \~1.0.1
     mkdirp: \~0.5.0
     'js-yaml': \~3.1.0
     pkginfo: \~0.3.0
