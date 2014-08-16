@@ -1,10 +1,10 @@
 require!<[winston]>
 
-module.exports.initWinston = !->
+module.exports.init-winston = !->
     winston.clear!
     winston.add winston.transports.Console, { level: \warn }
 
-module.exports.verboseWinston = (verbose) !->
+module.exports.verbose-winston = (verbose) !->
     if verbose
         winston.clear!
         winston.add winston.transports.Console, { level: \silly }
