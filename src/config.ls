@@ -18,7 +18,7 @@ save = (cfg, opts) !->
     mkdirp.sync path.dirname opts._cfg-path
     fs.writeFileSync opts._cfg-path, js-yaml.safeDump cfg
 
-set-opts-default = (opts) ->
+set-default-opts = (opts) ->
     if not opts?
         opts = {}
 
@@ -29,7 +29,7 @@ set-opts-default = (opts) ->
 module.exports.set-account = (username, opts) !->
     winston.info "set-account: username = #{username}"
 
-    opts = set-opts-default opts
+    opts = set-default-opts opts
 
     cfg = load opts
 
@@ -46,7 +46,7 @@ module.exports.set-account = (username, opts) !->
 module.exports.get-account = (opts) ->
     winston.info "get-account"
 
-    opts = set-opts-default opts
+    opts = set-default-opts opts
 
     cfg = load opts
 

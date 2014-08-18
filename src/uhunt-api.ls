@@ -1,6 +1,6 @@
 require!<[http winston]>
 
-set-opts-default = (opts) ->
+set-default-opts = (opts) ->
     if not opts?
         opts = {}
 
@@ -21,7 +21,7 @@ get-req-opts = (query, opts) ->
 module.exports.get-uid-by-name = (name, opts, callback) ->
     winston.info 'get-uid-by-name: name = %s' name
 
-    opts = set-opts-default opts
+    opts = set-default-opts opts
     req-opts = get-req-opts \/uname2uid/ ++ name, opts
 
     req = http.request req-opts, (res) ->
