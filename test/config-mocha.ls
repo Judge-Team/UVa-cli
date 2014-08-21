@@ -162,7 +162,33 @@ describe 'config', (,) !->
             done!
 
         it 'set account uid, config present', (done) !->
-            # FIXME: Implement this
+            (err, dir, tmp-dir-cb) <-! tmp.dir do
+                unsafe-cleanup: true
+
+            if err
+                throw err
+
+            username = \this-is-username
+            uid = 0xdeadbeef
+
+            original-cfg-path = path.join __dirname, \data \set-account-uid.yaml
+            cfg-path = path.join dir, \set-account-uid.yaml
+
+            fs-extra.copySync original-cfg-path, cfg-path
+
+            (err) <- app.config.set-account-uid username, uid, do
+                _cfg-path: cfg-path
+
+            expect err .to.be.null
+
+            (err, res) <- app.config.get-account-uid username, do
+                _cfg-path: cfg-path
+
+            expect err .to.be.null
+
+            expect res .to.equal uid
+
+            tmp-dir-cb!
             done!
 
     describe 'get-account-uid', (,) !->
