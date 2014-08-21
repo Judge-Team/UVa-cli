@@ -194,9 +194,39 @@ describe 'config', (,) !->
     describe 'get-account-uid', (,) !->
 
         it 'get account uid, config absense', (done) !->
-            # FIXME: Implement this
+            (err, dir, tmp-dir-cb) <-! tmp.dir do
+                unsafe-cleanup: true
+
+            if err
+                throw err
+
+            username = \this-is-username
+            uid = 0xdeadbeef
+
+            cfg-path = path.join dir, \get-account-uid.yaml
+
+            (err, res) <- app.config.get-account-uid username, do
+                _cfg-path: cfg-path
+
+            expect err .not.to.be.null
+
+            expect res .to.be.null
+
+            tmp-dir-cb!
             done!
 
         it 'get account uid, config present', (done) !->
-            # FIXME: Implement this
+
+            username = \this-is-username
+            uid = 12345678
+
+            cfg-path = path.join __dirname, \data \get-account-uid.yaml
+
+            (err, res) <- app.config.get-account-uid username, do
+                _cfg-path: cfg-path
+
+            expect err .to.be.null
+
+            expect res .to.equal uid
+
             done!
