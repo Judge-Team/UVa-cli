@@ -1,12 +1,16 @@
 require!<[fs mkdirp path winston js-yaml]>
 
-const DEFAULT_CONFIG_PATH = path.join process.env.HOME, \.config, \uva-cli, \config.yaml
+config = do
+    cfg-path : path.join process.env.HOME, \.config, \uva-cli, \config.yaml
 
-load = (opts) ->
+module.exports._inject-config-path = (value) !->
+    config.cfg-path = value
+
+load = ->
     try
-        cfg = js-yaml.safeLoad fs.readFileSync opts._cfg-path, \utf8
+        cfg = js-yaml.safe-load fs.read-file-sync config.cfg-path, \utf8
     catch e
-        winston.info 'load config at %s, %s' opts._cfg-path, e.toString!
+        winston.info 'load config at %s, %s' config.cfg-path, e.toString!
 
     if not cfg?
         # js-yaml.safeLoad might return undefined when document is empty.
@@ -14,24 +18,14 @@ load = (opts) ->
 
     cfg
 
-save = (cfg, opts) !->
-    mkdirp.sync path.dirname opts._cfg-path
-    fs.writeFileSync opts._cfg-path, js-yaml.safeDump cfg
-
-set-default-opts = (opts) ->
-    if not opts?
-        opts = {}
-
-    if not opts._cfg-path?
-        opts._cfg-path = DEFAULT_CONFIG_PATH
-    opts
+save = (cfg) !->
+    mkdirp.sync path.dirname config.cfg-path
+    fs.write-file-sync config.cfg-path, js-yaml.safe-dump cfg
 
 module.exports.set-account = (username, opts) !->
     winston.info "set-account: username = #{username}"
 
-    opts = set-default-opts opts
-
-    cfg = load opts
+    cfg = load!
 
     if not cfg.account?
         cfg.account = {}
@@ -41,26 +35,22 @@ module.exports.set-account = (username, opts) !->
     if opts? and opts.password?
         cfg.account.password = opts.password
 
-    save cfg, opts
+    save cfg
 
 module.exports.get-account = (opts) ->
     winston.info "get-account"
 
-    opts = set-default-opts opts
-
-    cfg = load opts
+    cfg = load!
 
     if cfg.account?
         return cfg.account
 
     {}
 
-module.exports.get-account-uid = (username, opts, cb) !->
+module.exports.get-account-uid = (username, cb) !->
     winston.info "get-account-uid: username = #{username}"
 
-    opts = set-default-opts opts
-
-    cfg = load opts
+    cfg = load!
 
     if not cfg.name2uid?
         cfg.name2uid = {}
@@ -72,18 +62,16 @@ module.exports.get-account-uid = (username, opts, cb) !->
     else
         cb new Error("No uid for #{username}"), null
 
-module.exports.set-account-uid = (username, uid, opts, cb) !->
+module.exports.set-account-uid = (username, uid, cb) !->
     winston.info "set-account-uid: username = #{username}, uid = #{uid}"
 
-    opts = set-default-opts opts
-
-    cfg = load opts
+    cfg = load!
 
     if not cfg.name2uid?
         cfg.name2uid = {}
 
     cfg.name2uid[username] = uid
 
-    save cfg, opts
+    save cfg
 
     cb null

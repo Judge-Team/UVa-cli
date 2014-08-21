@@ -10,8 +10,8 @@ describe 'config', (,) !->
     describe 'set-account', (,) !->
 
         it 'set account, no password, config absence', (done) !->
-            (err, dir, cb) <-! tmp.dir do
-                unsafeCleanup: true
+            (err, dir, tmp-dir-cb) <-! tmp.dir do
+                unsafe-cleanup: true
 
             if err
                 throw err
@@ -19,21 +19,22 @@ describe 'config', (,) !->
             cfg-path = path.join dir, \set-account-no-password-config-absense.yaml
             username = \this-is-username
 
-            app.config.set-account username, do
-                _cfg-path: cfg-path
+            app.config._inject-config-path cfg-path
 
-            cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
+            app.config.set-account username
+
+            cfg = js-yaml.safe-load fs.read-file-sync cfg-path, \utf-8
 
             expect cfg .to.deep.equal do
                 account:
                     username: username
 
-            cb!
+            tmp-dir-cb!
             done!
 
         it 'set account, with password, config absence', (done) !->
-            (err, dir, cb) <-! tmp.dir do
-                unsafeCleanup: true
+            (err, dir, tmp-dir-cb) <-! tmp.dir do
+                unsafe-cleanup: true
 
             if err
                 throw err
@@ -42,23 +43,24 @@ describe 'config', (,) !->
             username = \this-is-username
             password = \this-is-password
 
+            app.config._inject-config-path cfg-path
+
             app.config.set-account username, do
                 password: password
-                _cfg-path: cfg-path
 
-            cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
+            cfg = js-yaml.safe-load fs.read-file-sync cfg-path, \utf-8
 
             expect cfg .to.deep.equal do
                 account:
                     username: username
                     password: password
 
-            cb!
+            tmp-dir-cb!
             done!
 
         it 'set account, no password, config present', (done) !->
-            (err, dir, cb) <-! tmp.dir do
-                unsafeCleanup: true
+            (err, dir, tmp-dir-cb) <-! tmp.dir do
+                unsafe-cleanup: true
 
             if err
                 throw err
@@ -66,27 +68,29 @@ describe 'config', (,) !->
             original-cfg-path = path.join __dirname, \data \set-account-config.yaml
             cfg-path = path.join dir, \update-exist-account.yaml
 
-            fs-extra.copySync original-cfg-path, cfg-path
+            fs-extra.copy-sync original-cfg-path, cfg-path
 
             username = \this-is-another-username
             password = \this-is-original-password
 
+            app.config._inject-config-path cfg-path
+
             app.config.set-account username, do
                 _cfg-path: cfg-path
 
-            cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
+            cfg = js-yaml.safe-load fs.read-file-sync cfg-path, \utf-8
 
             expect cfg .to.deep.equal do
                 account:
                     username: username
                     password: password
 
-            cb!
+            tmp-dir-cb!
             done!
 
         it 'set account, with password, config present', (done) !->
-            (err, dir, cb) <-! tmp.dir do
-                unsafeCleanup: true
+            (err, dir, tmp-dir-cb) <-! tmp.dir do
+                unsafe-cleanup: true
 
             if err
                 throw err
@@ -99,37 +103,40 @@ describe 'config', (,) !->
             username = \this-is-another-username
             password = \this-is-another-password
 
+            app.config._inject-config-path cfg-path
+
             app.config.set-account username, do
                 password: password
-                _cfg-path: cfg-path
 
-            cfg = js-yaml.safeLoad fs.readFileSync cfg-path, \utf-8
+            cfg = js-yaml.safe-load fs.read-file-sync cfg-path, \utf-8
 
             expect cfg .to.deep.equal do
                 account:
                     username: username
                     password: password
 
-            cb!
+            tmp-dir-cb!
             done!
 
     describe 'get-account', (,) !->
 
         it 'get account, config absence', (done) !->
-            (err, dir, cb) <-! tmp.dir do
-                unsafeCleanup: true
+            (err, dir, tmp-dir-cb) <-! tmp.dir do
+                unsafe-cleanup: true
 
             if err
                 throw err
 
             cfg-path = path.join dir, \get-account.yaml
 
+            app.config._inject-config-path cfg-path
+
             account = app.config.get-account do
                 _cfg-path: cfg-path
 
             expect account .to.deep.equal {}
 
-            cb!
+            tmp-dir-cb!
             done!
 
     describe 'set-account-uid', (,) !->
@@ -146,13 +153,13 @@ describe 'config', (,) !->
 
             cfg-path = path.join dir, \set-account-uid.yaml
 
-            (err) <- app.config.set-account-uid username, uid, do
-                _cfg-path: cfg-path
+            app.config._inject-config-path cfg-path
+
+            (err) <- app.config.set-account-uid username, uid
 
             expect err .to.be.null
 
-            (err, res) <- app.config.get-account-uid username, do
-                _cfg-path: cfg-path
+            (err, res) <- app.config.get-account-uid username
 
             expect err .to.be.null
 
@@ -176,13 +183,13 @@ describe 'config', (,) !->
 
             fs-extra.copySync original-cfg-path, cfg-path
 
-            (err) <- app.config.set-account-uid username, uid, do
-                _cfg-path: cfg-path
+            app.config._inject-config-path cfg-path
+
+            (err) <- app.config.set-account-uid username, uid
 
             expect err .to.be.null
 
-            (err, res) <- app.config.get-account-uid username, do
-                _cfg-path: cfg-path
+            (err, res) <- app.config.get-account-uid username
 
             expect err .to.be.null
 
@@ -205,8 +212,9 @@ describe 'config', (,) !->
 
             cfg-path = path.join dir, \get-account-uid.yaml
 
-            (err, res) <- app.config.get-account-uid username, do
-                _cfg-path: cfg-path
+            app.config._inject-config-path cfg-path
+
+            (err, res) <- app.config.get-account-uid username
 
             expect err .not.to.be.null
 
@@ -222,8 +230,9 @@ describe 'config', (,) !->
 
             cfg-path = path.join __dirname, \data \get-account-uid.yaml
 
-            (err, res) <- app.config.get-account-uid username, do
-                _cfg-path: cfg-path
+            app.config._inject-config-path cfg-path
+
+            (err, res) <- app.config.get-account-uid username
 
             expect err .to.be.null
 
