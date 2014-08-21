@@ -38,7 +38,7 @@ module.exports.set-account = (username, opts) !->
 
     cfg.account.username = username
     # FIXME: ecrypt password here
-    if opts.password?
+    if opts? and opts.password?
         cfg.account.password = opts.password
 
     save cfg, opts
