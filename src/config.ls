@@ -54,3 +54,36 @@ module.exports.get-account = (opts) ->
         return cfg.account
 
     {}
+
+module.exports.get-account-uid = (username, opts, cb) !->
+    winston.info "get-account-uid: username = #{username}"
+
+    opts = set-default-opts opts
+
+    cfg = load opts
+
+    if not cfg.name2uid?
+        cfg.name2uid = {}
+
+    uid = cfg.name2uid[username]
+
+    if uid?
+        cb null, uid
+    else
+        cb new Error("No uid for #{username}"), null
+
+module.exports.set-account-uid = (username, uid, opts, cb) !->
+    winston.info "set-account-uid: username = #{username}, uid = #{uid}"
+
+    opts = set-default-opts opts
+
+    cfg = load opts
+
+    if not cfg.name2uid?
+        cfg.name2uid = {}
+
+    cfg.name2uid[username] = uid
+
+    save cfg, opts
+
+    cb null
