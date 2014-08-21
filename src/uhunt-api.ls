@@ -1,21 +1,18 @@
 require!<[http winston]>
 
-set-default-opts = (opts) ->
-    if not opts?
-        opts = {}
+config = do
+    hostname: \uhunt.felix-halim.net
+    port: 80
+    path: \/api
 
-    if not opts._api_prefix?
-        opts._host = \uhunt.felix-halim.net
-        opts._port = 80
-        opts._api_prefix = \/api
-
-    opts
+module.exports._inject-config = (new-config) ->
+    config <<< new-config
 
 get-req-opts = (query, opts) ->
     do
-        hostname: opts._host
-        path: opts._api_prefix ++ query
-        port: 80
+        hostname: config.hostname
+        port: config.port
+        path: config.path ++ query
 
 
 module.exports.get-uid-by-name = (name, opts, callback) ->
