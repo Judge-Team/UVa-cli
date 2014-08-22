@@ -12,14 +12,14 @@ describe 'uhunt-api', (,) !->
 
         it 'valid name', (done) !->
             # FIXME: Shall not connect to uhunt.felix-halim.net during testing
-            (err, uid) <- app.uhunt-api.get-uid-by-name \czchen {}
+            (err, uid) <- app.uhunt-api.get-uid-by-name \czchen
             expect err .to.be.null
             expect uid .to.equal \571324
             done!
 
         it 'invalid name', (done) !->
             # FIXME: Shall not connect to uhunt.felix-halim.net during testing
-            (err, uid) <- app.uhunt-api.get-uid-by-name \no-such-user {}
+            (err, uid) <- app.uhunt-api.get-uid-by-name \no-such-user
             expect err .to.be.null
             expect uid .to.equal \0
             done!

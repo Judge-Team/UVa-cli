@@ -8,18 +8,16 @@ config = do
 module.exports._inject-config = (new-config) ->
     config <<< new-config
 
-get-req-opts = (query, opts) ->
+get-req-opts = (query) ->
     do
         hostname: config.hostname
         port: config.port
         path: config.path ++ query
 
-
-module.exports.get-uid-by-name = (name, opts, callback) ->
+module.exports.get-uid-by-name = (name, callback) ->
     winston.info 'get-uid-by-name: name = %s' name
 
-    opts = set-default-opts opts
-    req-opts = get-req-opts \/uname2uid/ ++ name, opts
+    req-opts = get-req-opts \/uname2uid/ ++ name
 
     req = http.request req-opts, (res) ->
         res.on \data (data) ->
